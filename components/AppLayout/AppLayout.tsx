@@ -18,10 +18,7 @@ export const AppLayout: FC<Props> = ({ children }) => {
       <div className='flex flex-col overflow-hidden text-white'>
         <div className='px-2 bg-slate-800'>
           <Logo />
-          <Link
-            href='/post/new'
-            className='block w-full px-4 py-2 tracking-wider text-center text-white uppercase transition-colors duration-300 bg-green-500 rounded-md cursor-pointer hover:bg-green-600'
-          >
+          <Link href='/post/new' className='btn'>
             New post
           </Link>
           <Link href='/token-topup' className='block mt-2 text-center'>
