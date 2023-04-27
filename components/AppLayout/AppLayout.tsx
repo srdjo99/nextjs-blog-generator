@@ -15,8 +15,13 @@ export const AppLayout: FC<Props> = ({ children }) => {
       <div className='flex flex-col overflow-hidden text-white'>
         <div className='bg-slate-800'>
           <div>logo</div>
-          <div>cta button</div>
-          <div>tokens</div>
+          <Link
+            href='/post/new'
+            className='block w-full px-4 py-2 tracking-wider text-center text-white uppercase transition-colors duration-300 bg-green-500 rounded-md cursor-pointer hover:bg-green-600'
+          >
+            New post
+          </Link>
+          <Link href='/token-topup'> 0 tokens available</Link>
         </div>
         <div className='flex-1 overflow-auto bg-gradient-to-b from-slate-800 to-cyan-800'>
           list of posts
