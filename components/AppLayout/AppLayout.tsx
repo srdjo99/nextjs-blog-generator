@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
+import { Logo } from '../Logo';
 
 type Props = {
   children?: ReactNode;
@@ -16,7 +17,7 @@ export const AppLayout: FC<Props> = ({ children }) => {
     <div className='grid grid-cols-[300px_1fr] h-screen max-h-screen'>
       <div className='flex flex-col overflow-hidden text-white'>
         <div className='px-2 bg-slate-800'>
-          <div>logo</div>
+          <Logo />
           <Link
             href='/post/new'
             className='block w-full px-4 py-2 tracking-wider text-center text-white uppercase transition-colors duration-300 bg-green-500 rounded-md cursor-pointer hover:bg-green-600'
