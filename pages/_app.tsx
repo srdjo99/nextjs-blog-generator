@@ -4,6 +4,9 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { DM_Sans, DM_Serif_Display } from '@next/font/google';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
+config.autoAddCss = false;
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,14 +28,14 @@ const dmSerifDisplay = DM_Serif_Display({
   variable: '--font-dm-serif',
 });
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page);
+function MyApp({ Component, pageProps }: any) {
+  const getLayout = Component.getLayout ?? ((page: any) => page);
   return (
     <UserProvider>
       <main
         className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body`}
       >
-        {getLayout(<Component {...pageProps} />)}
+        {getLayout(<Component {...pageProps} />, pageProps)}
       </main>
     </UserProvider>
   );
