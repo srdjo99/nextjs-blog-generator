@@ -1,10 +1,11 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { Logo } from '../Logo';
+import PostsContext from '../../context/postsContext';
 
 type Props = {
   children?: ReactNode;
@@ -17,6 +18,8 @@ export const AppLayout: FC<any> = ({
   postId,
 }) => {
   const { user } = useUser();
+
+  const { setPostsFromSSR }: any = useContext(PostsContext);
 
   return (
     <div className='grid grid-cols-[300px_1fr] h-screen max-h-screen'>
