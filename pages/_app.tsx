@@ -6,6 +6,7 @@ import { DM_Sans, DM_Serif_Display } from '@next/font/google';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import { PostsProvider } from '../context/postsContext';
 config.autoAddCss = false;
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -32,11 +33,13 @@ function MyApp({ Component, pageProps }: any) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
   return (
     <UserProvider>
-      <main
-        className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body`}
-      >
-        {getLayout(<Component {...pageProps} />, pageProps)}
-      </main>
+      <PostsProvider>
+        <main
+          className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body`}
+        >
+          {getLayout(<Component {...pageProps} />, pageProps)}
+        </main>
+      </PostsProvider>
     </UserProvider>
   );
 }

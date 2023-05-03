@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext } from 'react';
+import { FC, ReactNode, useContext, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -19,7 +19,15 @@ export const AppLayout: FC<any> = ({
 }) => {
   const { user } = useUser();
 
-  const { setPostsFromSSR }: any = useContext(PostsContext);
+  const {
+    posts: postsFromSSR,
+    getPosts,
+    setPostsFromSSR,
+  }: any = useContext(PostsContext);
+
+  useEffect(() => {
+    setPostsFromSSR(posts);
+  }, [postsFromSSR, setPostsFromSSR, posts]);
 
   return (
     <div className='grid grid-cols-[300px_1fr] h-screen max-h-screen'>
@@ -46,6 +54,14 @@ export const AppLayout: FC<any> = ({
               {post.topic}
             </Link>
           ))}
+          <div
+            onClick={() =>
+              getPosts({ lastPostDate: posts[posts.length - 1].createdAt })
+            }
+            className='mt-4 text-sm text-center cursor-pointer hover:underline text-slate-400'
+          >
+            Load more posts
+          </div>
         </div>
         <div className='flex items-center h-20 gap-2 px-2 border-t bg-cyan-800 border-t-black/50'>
           {!!user ? (
