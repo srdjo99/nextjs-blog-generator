@@ -2,8 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  a:hover {
+    @apply underline;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply my-6 font-bold font-heading;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-lg;
+  }
+
+  p {
+    @apply my-2;
+  }
+
+  ul,
+  ol {
+    @apply my-4;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  li {
+    @apply my-2;
+  }
+}
+
 @layer components {
   .btn {
-    @apply block w-full px-4 py-2 tracking-wider text-center text-white uppercase transition-colors duration-300 bg-green-500 rounded-md cursor-pointer hover:bg-green-600;
+    @apply block w-full px-4 py-2 tracking-wider text-center text-white uppercase transition-colors duration-300 bg-green-500 rounded-md cursor-pointer disabled:bg-green-200 disabled:cursor-not-allowed hover:bg-green-600 hover:no-underline;
   }
 }
