@@ -23,6 +23,7 @@ export const AppLayout: FC<any> = ({
     posts: postsFromSSR,
     getPosts,
     setPostsFromSSR,
+    noMorePosts,
   }: any = useContext(PostsContext);
 
   useEffect(() => {
@@ -54,14 +55,16 @@ export const AppLayout: FC<any> = ({
               {post.topic}
             </Link>
           ))}
-          <div
-            onClick={() =>
-              getPosts({ lastPostDate: posts[posts.length - 1].createdAt })
-            }
-            className='mt-4 text-sm text-center cursor-pointer hover:underline text-slate-400'
-          >
-            Load more posts
-          </div>
+          {!noMorePosts && (
+            <div
+              onClick={() =>
+                getPosts({ lastPostDate: posts[posts.length - 1].createdAt })
+              }
+              className='mt-4 text-sm text-center cursor-pointer hover:underline text-slate-400'
+            >
+              Load more posts
+            </div>
+          )}
         </div>
         <div className='flex items-center h-20 gap-2 px-2 border-t bg-cyan-800 border-t-black/50'>
           {!!user ? (
