@@ -21,32 +21,35 @@ export const PostsProvider = ({ children }: any) => {
     });
   }, []);
 
-  const getPosts = useCallback(async ({ lastPostDate }: any) => {
-    const result = await fetch(`/api/getPosts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ lastPostDate }),
-    });
-
-    const json = await result.json();
-    const postsResult = json.posts || [];
-    console.log(postsResult, 'post result');
-    if (postsResult.length < 5) {
-      setNoMorePosts(true);
-    }
-    setPosts((prevPosts) => {
-      const newPosts: any = [...prevPosts];
-      postsResult.forEach((post: any) => {
-        const exists = newPosts.find((p: any) => p._id === post._id);
-        if (!exists) {
-          newPosts.push(post);
-        }
+  const getPosts = useCallback(
+    async ({ lastPostDate, getNewerPosts = false }: any) => {
+      const result = await fetch(`/api/getPosts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ lastPostDate, getNewerPosts }),
       });
-      return newPosts;
-    });
-  }, []);
+
+      const json = await result.json();
+      const postsResult = json.posts || [];
+      console.log(postsResult, 'post result');
+      if (postsResult.length < 5) {
+        setNoMorePosts(true);
+      }
+      setPosts((prevPosts) => {
+        const newPosts: any = [...prevPosts];
+        postsResult.forEach((post: any) => {
+          const exists = newPosts.find((p: any) => p._id === post._id);
+          if (!exists) {
+            newPosts.push(post);
+          }
+        });
+        return newPosts;
+      });
+    },
+    []
+  );
 
   return (
     <PostsContext.Provider
