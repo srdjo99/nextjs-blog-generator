@@ -11,7 +11,7 @@ export const getAppProps = async (ctx: any) => {
 
   if (!user) {
     return {
-      availableTokens: 0,
+      availableTokens: 2,
       posts: [],
     };
   }
@@ -28,7 +28,7 @@ export const getAppProps = async (ctx: any) => {
     .toArray();
 
   return {
-    availableTokens: user.availableTokens,
+    availableTokens: user.availableTokens === 0 ? 3 : user.availableTokens,
     posts: posts.map(({ createdAt, _id, userId, ...rest }: any) => ({
       _id: _id.toString(),
       createdAt: createdAt.toString(),
