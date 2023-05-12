@@ -1,24 +1,45 @@
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useReducer, useState } from 'react';
 
-const PostsContext = createContext({});
+const PostsContext = createContext<any | null>(null);
 
 export default PostsContext;
 
-export const PostsProvider = ({ children }: any) => {
-  const [posts, setPosts] = useState([]);
-  const [noMorePosts, setNoMorePosts] = useState(false);
-
-  const setPostsFromSSR = useCallback((postsFromSSR = []) => {
-    setPosts((prevPosts) => {
-      const newPosts: any = [...prevPosts];
-      postsFromSSR.forEach((post: any) => {
+function postsReducer(state: any, action: any) {
+  switch (action.type) {
+    case 'addPosts': {
+      const newPosts: any = [...state];
+      action.posts.forEach((post: any) => {
         const exists = newPosts.find((p: any) => p._id === post._id);
         if (!exists) {
           newPosts.push(post);
         }
       });
       return newPosts;
-    });
+    }
+    case 'deletePost': {
+      const newPosts: any = [];
+      state.forEach((post: any) => {
+        if (post._id !== action.postId) {
+          newPosts.push(post);
+        }
+      });
+      return newPosts;
+    }
+    default:
+      return state;
+  }
+}
+
+export const PostsProvider = ({ children }: any) => {
+  const [posts, dispatch] = useReducer(postsReducer, []);
+  // const [noMorePosts, setNoMorePosts] = useState(false);
+
+  const deletePost = useCallback((postId: any) => {
+    dispatch({ type: 'deletePost', postId });
+  }, []);
+
+  const setPostsFromSSR = useCallback((postsFromSSR = []) => {
+    dispatch({ type: 'addPosts', posts: postsFromSSR });
   }, []);
 
   const getPosts = useCallback(
@@ -35,25 +56,16 @@ export const PostsProvider = ({ children }: any) => {
       const postsResult = json.posts || [];
       console.log(postsResult, 'post result');
       if (postsResult.length < 5) {
-        setNoMorePosts(true);
+        // setNoMorePosts(true);
       }
-      setPosts((prevPosts) => {
-        const newPosts: any = [...prevPosts];
-        postsResult.forEach((post: any) => {
-          const exists = newPosts.find((p: any) => p._id === post._id);
-          if (!exists) {
-            newPosts.push(post);
-          }
-        });
-        return newPosts;
-      });
+      dispatch({ type: 'addPosts', posts: postsResult });
     },
     []
   );
 
   return (
     <PostsContext.Provider
-      value={{ posts, noMorePosts, getPosts, setPostsFromSSR }}
+      value={{ posts, getPosts, deletePost, setPostsFromSSR }}
     >
       {children}
     </PostsContext.Provider>

@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useContext, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { AppLayout } from '../../components/AppLayout';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import { getAppProps } from '../../utils/getAppProps';
 import { useRouter } from 'next/router';
+import PostsContext from '../../context/postsContext';
 
 const Post: any = ({
   postContent,
@@ -19,6 +20,7 @@ const Post: any = ({
 }: any) => {
   const router = useRouter();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { deletePost }: any = useContext(PostsContext);
 
   const handleDeleteConfirm = async () => {
     try {
@@ -33,6 +35,7 @@ const Post: any = ({
       const json = await response.json();
 
       if (json.success) {
+        deletePost(id);
         router.replace('/post/new');
       }
     } catch (error) {

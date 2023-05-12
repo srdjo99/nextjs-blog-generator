@@ -16,7 +16,7 @@ export const AppLayout: FC<any> = ({
   availableTokens,
   posts,
   postId,
-  postCreated
+  postCreated,
 }) => {
   const { user } = useUser();
 
@@ -32,10 +32,10 @@ export const AppLayout: FC<any> = ({
     if (postId) {
       const exists = postsFromSSR.find((post: any) => post._id === postId);
       if (!exists) {
-        getPosts({getNewerPosts: true, lastPostDate: postCreated});
+        getPosts({ getNewerPosts: true, lastPostDate: postCreated });
       }
     }
-  }, [postsFromSSR, setPostsFromSSR, posts, postId, postCreated]);
+  }, [getPosts, setPostsFromSSR, posts, postId, postCreated]);
 
   return (
     <div className='grid grid-cols-[300px_1fr] h-screen max-h-screen'>

@@ -18,6 +18,7 @@ const NewPostPage: any = () => {
     e.preventDefault();
     setGenerating(true);
     try {
+      true;
       const response = await fetch(`/api/generatePost`, {
         method: 'POST',
         headers: {
@@ -33,6 +34,7 @@ const NewPostPage: any = () => {
       }
     } catch (error) {
       console.log(error, 'client-err');
+    } finally {
       setGenerating(false);
     }
   };
